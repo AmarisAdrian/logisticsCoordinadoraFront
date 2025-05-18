@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./src:/app/src
+      - ./angular.json:/app/angular.json
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./tsconfig.app.json:/app/tsconfig.app.json
+      - ./public:/app/public
+      # puedes agregar más si necesitas (archivos que cambian con frecuencia)
+    stdin_open: true
+    command: npm run start -- --host 0.0.0.0
+    tty: true

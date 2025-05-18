@@ -1,0 +1,48 @@
+<div class="container vh-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">Logistics Coordinadora</h2>
+            <p class="text-muted">Ingresa tus credenciales</p>
+          </div>
+          
+          <form (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email" 
+                [(ngModel)]="credentials.email"
+                name="email"
+                required
+                placeholder="tu@email.com">
+            </div>
+            
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password" 
+                [(ngModel)]="credentials.password"
+                name="password"
+                required
+                placeholder="••••••••">
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100 py-2">
+              <span *ngIf="!isLoading">Iniciar Sesión</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
+            </button>
+          </form>
+          <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+            {{ errorMessage }}
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
