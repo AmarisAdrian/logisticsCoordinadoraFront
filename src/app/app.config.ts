@@ -2,7 +2,7 @@ import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { routes } from './app.routes';
-import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { JwtInterceptor } from './core/jwt.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
