@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -20,19 +21,24 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  onSubmit(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
+onSubmit(): void {
+  this.isLoading = true;
+  this.errorMessage = '';
 
-    this.authService.login(this.credentials).subscribe({
-      next: (response) => {
-        this.authService.setToken(response.accessToken);
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Error al iniciar sesión';
-        this.isLoading = false;
-      }
-    });
-  }
+  this.authService.login(this.credentials).pipe(
+    finalize(() => {
+      this.isLoading = false;
+    })
+  ).subscribe({
+    next: (response) => {
+      this.authService.setToken(response.accessToken);
+      this.router.navigate(['/dashboard']);
+    },
+    error: (err) => {
+      console.error('Login error:', err);
+      this.errorMessage = err.error?.message || 'Credenciales inválidas o error de servidor';
+    }
+  });
+}
+
 }

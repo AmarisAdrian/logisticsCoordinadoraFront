@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../enviroments/enviroments';
 import { Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +13,17 @@ export class AuthService {
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
    private readonly TOKEN_KEY = 'auth_token';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  login(credentials: { email: string; password: string }): Observable<{ accessToken: string, refreshToken: string }> {
-    return this.http.post<{ accessToken: string, refreshToken: string }>(
-      `${environment.apiUrl}/auth/login`,
-      credentials
-    ).pipe(
-      tap(response => this.storeTokens(response))
-    );
-  }
+  login(credentials: { email: string; password: string }): Observable<any> {
+  return this.http.post<any>(`${environment.apiUrl}/auth/login`, credentials).pipe(
+    tap(response => {
+      this.setToken(response.token);
+      localStorage.setItem('user', JSON.stringify(response.usuario));
+    })
+  );
+}
+
 
   private storeTokens(tokens: { accessToken: string, refreshToken: string }): void {
     localStorage.setItem(this.ACCESS_TOKEN_KEY, tokens.accessToken);
@@ -40,6 +43,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    this.router.navigate(['/login']);
   }
 
   refreshToken(): Observable<{ accessToken: string }> {
@@ -53,4 +57,17 @@ export class AuthService {
       })
     );
   }
+  getCurrentUser(): any {
+    const user = localStorage.getItem('user');
+    if (!user || user === 'undefined' || user === 'null') {
+      return null;
+    }
+    try {
+      return JSON.parse(user);
+    } catch {
+      return null;
+    }
+  }
+
+
 }
