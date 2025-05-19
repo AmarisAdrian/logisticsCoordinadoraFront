@@ -18,17 +18,21 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
   return this.http.post<any>(`${environment.apiUrl}/auth/login`, credentials).pipe(
     tap(response => {
-      this.setToken(response.token);
+      this.storeTokens({
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken
+      });
       localStorage.setItem('user', JSON.stringify(response.usuario));
     })
   );
 }
 
 
-  private storeTokens(tokens: { accessToken: string, refreshToken: string }): void {
-    localStorage.setItem(this.ACCESS_TOKEN_KEY, tokens.accessToken);
-    localStorage.setItem(this.REFRESH_TOKEN_KEY, tokens.refreshToken);
-  }
+
+ private storeTokens(tokens: { accessToken: string, refreshToken: string }): void {
+  localStorage.setItem(this.ACCESS_TOKEN_KEY, tokens.accessToken);
+  localStorage.setItem(this.REFRESH_TOKEN_KEY, tokens.refreshToken);
+}
 
   getAccessToken(): string | null {
     return localStorage.getItem(this.ACCESS_TOKEN_KEY);
