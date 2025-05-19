@@ -16,6 +16,7 @@
 
 .dashboard-card {
   background-color: #007bff;
+  text-decoration: none;
   color: white;
   border: none;
   border-radius: 12px;

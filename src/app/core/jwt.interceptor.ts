@@ -33,7 +33,7 @@ export class JwtInterceptor implements HttpInterceptor {
         return this.handle401Error(authReq, next);
       }
 
-      return throwError(() => error); // <- se propaga el error al componente
+      return throwError(() => error);
     })
   );
 }

@@ -1,1 +1,122 @@
-<p>user-create works!</p>
+<div class="banner">
+  <img
+    src="https://coordinadora.com/wp-content/uploads/2023/03/logo-coordinadora.svg"
+    alt="Coordinadora"
+    class="banner-logo"
+  />
+</div>
+
+<div class="dashboard-container">
+  <div class="container mt-4">
+    <h2>Crear Usuario</h2>
+    <button class="btn btn-success mt-3" [routerLink]="['/dashboard']">
+      Ir al Dashboard
+    </button>
+    <br>
+    <hr>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+      <!-- Nombres -->
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombres</label>
+        <input
+          id="nombre"
+          type="text"
+          class="form-control"
+          formControlName="nombre"
+          [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }"
+          placeholder="Ingrese el nombre completo"
+        />
+        <div *ngIf="submitted && f['nombre'].errors" class="invalid-feedback">
+          <div *ngIf="f['nombre'].errors?.['required']">El nombre es obligatorio.</div>
+          <div *ngIf="f['nombre'].errors?.['minlength']">Mínimo 3 caracteres.</div>
+          <div *ngIf="f['nombre'].errors?.['maxlength']">Máximo 100 caracteres.</div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <input
+          id="email"
+          type="email"
+          class="form-control"
+          formControlName="email"
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+          placeholder="ejemplo@dominio.com"
+        />
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors?.['required']">El correo es obligatorio.</div>
+          <div *ngIf="f['email'].errors?.['email']">Correo inválido.</div>
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          class="form-control"
+          formControlName="password"
+          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+          placeholder="Mínimo 6 caracteres"
+        />
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+          <div *ngIf="f['password'].errors?.['required']">La contraseña es obligatoria.</div>
+          <div *ngIf="f['password'].errors?.['minlength']">Mínimo 6 caracteres.</div>
+        </div>
+      </div>
+
+      <!-- Tipo de Usuario -->
+      <div class="mb-3">
+        <label for="tipo" class="form-label">Tipo de Usuario</label>
+        <select
+          id="tipo"
+          class="form-select"
+          formControlName="tipo"
+          [ngClass]="{ 'is-invalid': submitted && f['tipo'].errors }"
+        >
+          <option value="" disabled>Seleccione un tipo</option>
+          <option value="cliente">Cliente</option>
+          <option value="administrador">Administrador</option>
+          <option value="transportista">Transportista</option>
+        </select>
+        <div *ngIf="submitted && f['tipo'].errors" class="invalid-feedback">
+          <div *ngIf="f['tipo'].errors?.['required']">El tipo es obligatorio.</div>
+        </div>
+      </div>
+
+      <!-- Estado -->
+      <div class="mb-3">
+        <label class="form-label">Estado</label>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="estado"
+            id="estadoActivo"
+            value="activo"
+          />
+          <label class="form-check-label" for="estadoActivo">Activo</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="estado"
+            id="estadoInactivo"
+            value="inactivo"
+          />
+          <label class="form-check-label" for="estadoInactivo">Inactivo</label>
+        </div>
+        <div *ngIf="submitted && f['estado'].errors" class="text-danger mt-1">
+          <small *ngIf="f['estado'].errors?.['required']">Debe seleccionar un estado.</small>
+        </div>
+      </div>
+
+      <!-- Botón -->
+      <button type="submit" class="btn btn-primary">Crear Usuario</button>
+    </form>
+  </div>
+</div>
