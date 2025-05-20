@@ -1,1 +1,153 @@
-<p>shipping-create works!</p>
+<div class="container mt-4">
+  <div class="text-center mb-4">
+    <img
+      src="https://coordinadora.com/wp-content/uploads/2023/03/logo-coordinadora.svg"
+      alt="Coordinadora"
+      class="img-fluid"
+      style="max-height: 80px;"
+    />
+  </div>
+
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Registrar nuevo envío</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="shippingForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+
+    <!-- Cliente -->
+    <div class="form-group col-md-12">
+      <label for="id_usuario">Seleccionar Cliente *</label>
+      <ng-select
+        [items]="usersFiltrados"
+        bindLabel="nombre"
+        bindValue="id_usuario"
+        formControlName="id_usuario"
+        [searchable]="true"
+        placeholder="Buscar cliente..."
+        (change)="filtrarUsuario()"
+        notFoundText="No encontrado">
+      </ng-select>
+      <div *ngIf="submitted && f['id_usuario'].errors" class="invalid-feedback d-block">
+        <div *ngIf="f['id_usuario'].errors?.['required']">Campo obligatorio.</div>
+      </div>
+    </div>
+    <br><br><br><hr>
+    <!-- Transportista -->
+    <div class="form-group col-md-12">
+      <label for="id_transportista">Seleccionar Transportista *</label>
+      <ng-select
+        [items]="usersFiltradosTipo"
+        bindLabel="nombre"
+        bindValue="id_usuario"
+        formControlName="id_transportista"
+        [searchable]="true"
+        placeholder="Buscar transportista..."
+        (change)="filtrarUsuarioByTipo()"
+        notFoundText="No encontrado">
+      </ng-select>
+      <div *ngIf="submitted && f['id_transportista'].errors" class="invalid-feedback d-block">
+        <div *ngIf="f['id_transportista'].errors?.['required']">Campo obligatorio.</div>
+      </div>
+    </div>
+   <br><br><br><hr>
+    <!-- Ruta -->
+    <div class="form-group col-md-12">
+      <label for="id_ruta">Seleccionar Ruta *</label>
+      <ng-select
+        [items]="rutasFiltradas"
+        bindLabel="label"
+        bindValue="id_ruta"
+        formControlName="id_ruta"
+        [searchable]="true"
+        placeholder="Buscar ruta..."
+        (change)="filtrarRutas()"
+        notFoundText="No encontrado">
+      </ng-select>
+      <div *ngIf="submitted && f['id_ruta'].errors" class="invalid-feedback d-block">
+        <div *ngIf="f['id_ruta'].errors?.['required']">Campo obligatorio.</div>
+      </div>
+    </div>
+     <br><br><br><hr>
+    <!-- Peso -->
+    <div class="form-group col-md-3">
+      <label for="peso">Peso (kg)</label>
+      <input id="peso" type="number" class="form-control" formControlName="peso"
+        [ngClass]="{ 'is-invalid': submitted && f['peso'].errors }" />
+      <div *ngIf="submitted && f['peso'].errors" class="invalid-feedback">
+        <div *ngIf="f['peso'].errors?.['required']">Campo obligatorio.</div>
+        <div *ngIf="f['peso'].errors?.['min']">Debe ser mayor a 0.</div>
+      </div>
+    </div>
+
+    <!-- Ancho -->
+    <div class="form-group col-md-3">
+      <label for="ancho">Ancho (cm)</label>
+      <input id="ancho" type="number" class="form-control" formControlName="ancho"
+        [ngClass]="{ 'is-invalid': submitted && f['ancho'].errors }" />
+      <div *ngIf="submitted && f['ancho'].errors" class="invalid-feedback">
+        <div *ngIf="f['ancho'].errors?.['required']">Campo obligatorio.</div>
+        <div *ngIf="f['ancho'].errors?.['min']">Debe ser mayor a 0.</div>
+      </div>
+    </div>
+
+    <!-- Alto -->
+    <div class="form-group col-md-3">
+      <label for="alto">Alto (cm)</label>
+      <input id="alto" type="number" class="form-control" formControlName="alto"
+        [ngClass]="{ 'is-invalid': submitted && f['alto'].errors }" />
+      <div *ngIf="submitted && f['alto'].errors" class="invalid-feedback">
+        <div *ngIf="f['alto'].errors?.['required']">Campo obligatorio.</div>
+        <div *ngIf="f['alto'].errors?.['min']">Debe ser mayor a 0.</div>
+      </div>
+    </div>
+
+    <!-- Largo -->
+    <div class="form-group col-md-3">
+      <label for="largo">Largo (cm)</label>
+      <input id="largo" type="number" class="form-control" formControlName="largo"
+        [ngClass]="{ 'is-invalid': submitted && f['largo'].errors }" />
+      <div *ngIf="submitted && f['largo'].errors" class="invalid-feedback">
+        <div *ngIf="f['largo'].errors?.['required']">Campo obligatorio.</div>
+        <div *ngIf="f['largo'].errors?.['min']">Debe ser mayor a 0.</div>
+      </div>
+    </div>
+
+    <!-- Tipo Producto -->
+    <div class="form-group col-md-6">
+      <label for="tipo_producto">Tipo de Producto</label>
+      <textarea id="tipo_producto" rows="3" class="form-control" formControlName="tipo_producto"
+        [ngClass]="{ 'is-invalid': submitted && f['tipo_producto'].errors }"></textarea>
+      <div *ngIf="submitted && f['tipo_producto'].errors" class="invalid-feedback">
+        <div *ngIf="f['tipo_producto'].errors?.['required']">Campo obligatorio.</div>
+        <div *ngIf="f['tipo_producto'].errors?.['minlength']">Mínimo 3 caracteres.</div>
+        <div *ngIf="f['tipo_producto'].errors?.['maxlength']">Máximo 200 caracteres.</div>
+      </div>
+    </div>
+
+    <!-- Dirección de destino -->
+    <div class="form-group col-md-6">
+      <label for="direccion_destino">Dirección de Destino</label>
+      <textarea id="direccion_destino" rows="3" class="form-control" formControlName="direccion_destino"
+        [ngClass]="{ 'is-invalid': submitted && f['direccion_destino'].errors }"></textarea>
+      <div *ngIf="submitted && f['direccion_destino'].errors" class="invalid-feedback">
+        <div *ngIf="f['direccion_destino'].errors?.['required']">Campo obligatorio.</div>
+        <div *ngIf="f['direccion_destino'].errors?.['minlength']">Mínimo 3 caracteres.</div>
+        <div *ngIf="f['direccion_destino'].errors?.['maxlength']">Máximo 300 caracteres.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Botón -->
+  <div class="text-end">
+    <button type="submit" class="btn btn-success" [disabled]="shippingForm.invalid">
+      Registrar Envío
+    </button>
+  </div>
+</form>
+
+    </div>
+  </div>
+</div>

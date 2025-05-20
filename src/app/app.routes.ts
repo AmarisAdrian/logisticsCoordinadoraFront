@@ -23,4 +23,9 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./modules/users/users-routing.module').then(m => m.UsersRoutingModule)
   },
+  {
+    path: 'envios',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./modules/shipping/shipping-routing.module').then(m => m.ShippingRoutingModule)
+  },
 ];
