@@ -1,59 +1,56 @@
-# LogisticsCoordinadoraFront
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+---
 
-## Development server
+## 🌐 Frontend – `logisticsCoordinadoraFront`
 
-To start a local development server, run:
+```markdown
+# 🌐 Logistics Coordinadora – Frontend
 
-```bash
-ng serve
-```
+Este es el frontend del proyecto **Logistics Coordinadora**, desarrollado en **Angular 19**, utilizando una arquitectura modular basada en **Feature Modules**, con **Lazy Loading**, **Core Module**, y principios **SOLID** inspirados en Clean Architecture.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🚀 Tecnologías
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Angular v19
+- TypeScript
+- RxJS
+- Angular Router
+- Docker & Docker Compose
+- Nginx (como servidor)
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📂 Estructura de Carpetas
+src/
+├── app/
+│ ├── core/ # Servicios e interceptores globales
+│ ├── layout/ # Componentes de layout
+│ ├── modules/ # Módulos por funcionalidad: auth, shipping, users
+│ ├── enviroments/ # Variables de entorno
+│ └── app.routes.ts # Rutas principales
 
-```bash
-ng generate --help
-```
 
-## Building
+---
 
-To build the project run:
+## ⚙️ Instalación y ejecución con Docker
 
-```bash
-ng build
-```
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/AmarisAdrian/logisticsCoordinadoraFront.git
+   cd logisticsCoordinadoraFront
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+2. Ejecutar los contenedores: docker-compose down && docker-compose build --no-cache --quiet && docker-compose up -d
+3. Acceder a la aplicación: http://localhost:4200/login
 
-## Running unit tests
+🔐 Credenciales de prueba
+  - Email: admin@admin.com
+  - Password: 123456
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+🧱 Arquitectura
 
-```bash
-ng test
-```
+- Modularización por características (Feature Modules)
+- Lazy Loading para carga eficiente de módulos
+- Interceptors, Guards y Services centralizados en core/
+- Separa responsabilidades según Clean Architecture
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
