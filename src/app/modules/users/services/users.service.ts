@@ -1,16 +1,10 @@
-// src/app/modules/users/services/user.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
+import { Usuario, UsuarioResponse, UsuariosResponse } from '../models/usuario.model';
+import { map } from 'rxjs/operators';
 
-export interface User {
-  nombre: string;
-  email: string;
-  password: string;
-  tipo: string;
-  estado: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +14,8 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  register(user: User): Observable<User> {
-    // console.log(user)
-    return this.http.post<User>(`${this.apiUrl}/register`, user);
+  register(user: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.apiUrl}/register`, user);
   }
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error desconocido';
@@ -36,4 +29,17 @@ export class UserService {
     console.error(error);
     return throwError(() => new Error(errorMessage));
   }
+
+  getUsers(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${this.apiUrl}/`);
+  }
+  getUserById(id: string): Observable<Usuario> {
+    return this.http.get<UsuarioResponse>(`${this.apiUrl}/${id}`).pipe(
+      map((response : UsuarioResponse) => response.data));
+  }
+  getUserByTipo(tipo: string): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${this.apiUrl}/search/${tipo}`);
+  }
+
+
 }
